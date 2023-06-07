@@ -1,6 +1,6 @@
 ﻿namespace DataAccess.DbAccess
 {
-    internal interface IConfiguration
+    public interface IConfiguration
     {
         string GetConnectionString(string connectionId);
     }

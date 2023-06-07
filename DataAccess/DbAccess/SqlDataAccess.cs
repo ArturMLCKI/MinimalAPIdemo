@@ -1,6 +1,10 @@
 ﻿using Dapper;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection.Metadata;
+using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
 
 namespace DataAccess.DbAccess;
@@ -11,7 +15,7 @@ public class SqlDataAccess : ISqlDataAccess
 
     public SqlDataAccess(IConfiguration config)
     {
-        _config = _config;
+        _config = config;
     }
 
     public async Task<IEnumerable<T>> LoadData<T, U>(string storedProcedure, U parameters, string connectionId = "Default")
