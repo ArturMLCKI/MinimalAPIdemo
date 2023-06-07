@@ -1,80 +1,79 @@
-﻿namespace MinimalAPIdemo
+﻿namespace MinimalAPIdemo;
+
+public static class API
+
 {
-    public static class API
-
+    public static void ConfigureApi(this WebApplication app)
     {
-        public static void ConfigureApi(this WebApplication app)
-        {
-            app.MapGet("/Users", GetUsers);
-            app.MapGet("/Users/{id}", GetUser);
-            app.MapPost("/Users", InsertUser);
-            app.MapPut("/Users", UpdateUser);
-            app.MapDelete("/Users", DeleteUser);
-        }
+        app.MapGet("/Users", GetUsers);
+        app.MapGet("/Users/{id}", GetUser);
+        app.MapPost("/Users", InsertUser);
+        app.MapPut("/Users", UpdateUser);
+        app.MapDelete("/Users", DeleteUser);
+    }
 
-        private static async Task<IResult> GetUsers(IUserData data)
+    private static async Task<IResult> GetUsers(IUserData data)
+    {
+        try
         {
-            try
-            {
-                return Results.Ok(await data.GetUsers());
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem(ex.Message);
-            }
+            return Results.Ok(await data.GetUsers());
         }
-
-        private static async Task<IResult> GetUser(int id, IUserData data)
+        catch (Exception ex)
         {
-            try
-            {
-                var results = await data.GetUser(id);
-                if (results == null) return Results.NotFound();
-                return Results.Ok(results);
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem(ex.Message);
-            }
+            return Results.Problem(ex.Message);
         }
+    }
 
-        private static async Task<IResult> InsertUser(UserModel user, IUserData data)
+    private static async Task<IResult> GetUser(int id, IUserData data)
+    {
+        try
         {
-            try
-            {
-                await data.InsertUser(user);
-                return Results.Ok();
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem(ex.Message);
-            }
+            var results = await data.GetUser(id);
+            if (results == null) return Results.NotFound();
+            return Results.Ok(results);
         }
-        private static async Task<IResult> UpdateUser(UserModel user, IUserData data)
+        catch (Exception ex)
         {
-            try
-            {
-                await data.UpdateUser(user);
-                return Results.Ok();
-
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem(ex.Message);
-            }
+            return Results.Problem(ex.Message);
         }
-        private static async Task<IResult> DeleteUser(int id, IUserData data)
-        {
-            try
-            {
-                await data.DeleteUser(id);
-                return Results.Ok();
+    }
 
-            }
-            catch (Exception ex)
-            {
-                return Results.Problem(ex.Message);
-            }
+    private static async Task<IResult> InsertUser(UserModel user, IUserData data)
+    {
+        try
+        {
+            await data.InsertUser(user);
+            return Results.Ok();
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem(ex.Message);
+        }
+    }
+    private static async Task<IResult> UpdateUser(UserModel user, IUserData data)
+    {
+        try
+        {
+            await data.UpdateUser(user);
+            return Results.Ok();
+
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem(ex.Message);
+        }
+    }
+    private static async Task<IResult> DeleteUser(int id, IUserData data)
+    {
+        try
+        {
+            await data.DeleteUser(id);
+            return Results.Ok();
+
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem(ex.Message);
         }
     }
 }

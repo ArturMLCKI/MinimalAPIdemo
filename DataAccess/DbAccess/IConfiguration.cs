@@ -1,7 +1,6 @@
-﻿namespace DataAccess.DbAccess
+﻿namespace DataAccess.DbAccess;
+
+public interface IConfiguration
 {
-    public interface IConfiguration
-    {
-        string GetConnectionString(string connectionId);
-    }
+    string GetConnectionString(string connectionId);
 }
